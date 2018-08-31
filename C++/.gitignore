@@ -4,3 +4,6 @@ Debug
 *.txt
 *.sln
 *.vcxproj*
+
+.*
+!/.gitignore
