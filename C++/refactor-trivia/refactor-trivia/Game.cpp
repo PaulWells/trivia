@@ -1,13 +1,12 @@
-﻿#include "Game.h"
-#include <stdio.h>
-#include <stdlib.h>
+﻿#include "pch.h"
+#include "Game.h"
 #include <iostream>
 #include <sstream>
 
 using namespace std;
 
-Game::Game() : currentPlayer(0), places({}), purses({}){
-	for (int i = 0; i < 50; i++)
+Game::Game() : currentPlayer(0), places(), purses(){
+	for (int i = 0; i < 50000; i++)
 	{
 
 		ostringstream oss (ostringstream::out);
@@ -16,11 +15,11 @@ Game::Game() : currentPlayer(0), places({}), purses({}){
 		popQuestions.push_back(oss.str());
 
 		char str[255];
-		sprintf(str, "Science Question %d", i);
+		sprintf_s(str, "Science Question %d", i);
 		scienceQuestions.push_back(str);
 
 		char str1[255];
-		sprintf(str1, "Sports Question %d", i);
+		sprintf_s(str1, "Sports Question %d", i);
 		sportsQuestions.push_back(str1);
 
 		rockQuestions.push_back(createRockQuestion(i));
@@ -30,7 +29,7 @@ Game::Game() : currentPlayer(0), places({}), purses({}){
 string Game::createRockQuestion(int index)
 {
 	char indexStr[127];
-	sprintf(indexStr, "Rock Question %d", index);
+	sprintf_s(indexStr, "Rock Question %d", index);
 	return indexStr;
 }
 

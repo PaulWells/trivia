@@ -1,10 +1,13 @@
-﻿#include <stdlib.h>
+﻿#include "pch.h"
+#include <string>
 #include "Game.h"
+#include "GameRunner.h"
 
 static bool notAWinner;
 
-int main()
+void GameRunner::Start()
 {
+
 	Game aGame;
 
 	aGame.add("Chet");
