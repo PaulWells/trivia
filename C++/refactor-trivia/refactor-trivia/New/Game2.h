@@ -3,49 +3,37 @@
 #include <vector>
 #include "../Common/IGame.h"
 
-using namespace std;
-
-#ifndef GAME2_H_
-#define GAME2_H_
-
-class Game2 : public IGame{
-
-		private:
-			vector<string> players;
-
-			int places[6];
-			int purses[6];
-
-			bool inPenaltyBox[6];
-
-			list<string> popQuestions;
-			list<string> scienceQuestions;
-			list<string> sportsQuestions;
-			list<string> rockQuestions;
-
-			int currentPlayer;
-			bool isGettingOutOfPenaltyBox;
+class Game2 : public IGame {
 
 public:
-	Game2(shared_ptr<ostream> os);
-	string createRockQuestion(int index);
-	bool isPlayable();
-	bool add(string playerName);
+	Game2(std::shared_ptr<ostream> os);
+	std::string CreateRockQuestion(int index);
+	bool IsPlayable();
+	bool Add(std::string playerName);
+	int HowManyPlayers();
+	void Roll(int roll);
 
-	int howManyPlayers();
-	void roll(int roll);
-
-	private:
-		void askQuestion();
-		string currentCategory();
-
-				public:
-					bool wasCorrectlyAnswered();
-					bool wrongAnswer();
+	bool WasCorrectlyAnswered();
+	bool WrongAnswer();
 
 private:
-	bool didPlayerWin();
-	shared_ptr<ostream> m_OutputStream;
-};
+	void AskQuestion();
+	std::string CurrentCategory();
+	bool DidPlayerWin();
 
-#endif /* GAME2_H_ */
+	vector<std::string> m_Players;
+
+	int m_Places[6];
+	int m_Purses[6];
+	bool m_InPenaltyBox[6];
+
+	list<std::string> m_PopQuestions;
+	list<std::string> m_ScienceQuestions;
+	list<std::string> m_SportsQuestions;
+	list<std::string> m_RockQuestions;
+
+	int m_CurrentPlayer;
+	bool m_IsGettingOutOfPenaltyBox;
+
+	std::shared_ptr<std::ostream> m_OutputStream;
+};

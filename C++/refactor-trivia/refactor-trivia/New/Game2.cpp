@@ -5,193 +5,208 @@
 
 using namespace std;
 
-Game2::Game2(shared_ptr<ostream> os) : currentPlayer(0), places(), purses(), m_OutputStream(os){
+Game2::Game2(shared_ptr<ostream> os) 
+	: m_CurrentPlayer(0)
+	, m_Places()
+	, m_Purses()
+	, m_OutputStream(os)
+{
 	for (int i = 0; i < 500; i++)
 	{
 
 		ostringstream oss (ostringstream::out);
 		oss << "Pop Question " << i;
 
-		popQuestions.push_back(oss.str());
+		m_PopQuestions.push_back(oss.str());
 
 		char str[255];
 		sprintf_s(str, "Science Question %d", i);
-		scienceQuestions.push_back(str);
+		m_ScienceQuestions.push_back(str);
 
 		char str1[255];
 		sprintf_s(str1, "Sports Question %d", i);
-		sportsQuestions.push_back(str1);
+		m_SportsQuestions.push_back(str1);
 
-		rockQuestions.push_back(createRockQuestion(i));
+		m_RockQuestions.push_back(CreateRockQuestion(i));
 	}
 }
 
-string Game2::createRockQuestion(int index)
+string Game2::CreateRockQuestion(int index)
 {
 	char indexStr[127];
 	sprintf_s(indexStr, "Rock Question %d", index);
 	return indexStr;
 }
 
-bool Game2::isPlayable()
+bool Game2::IsPlayable()
 {
-	return (howManyPlayers() >= 2);
+	return (HowManyPlayers() >= 2);
 }
 
-bool Game2::add(string playerName){
-	players.push_back(playerName);
-	places[howManyPlayers()] = 0;
-	purses[howManyPlayers()] = 0;
-	inPenaltyBox[howManyPlayers()] = false;
+bool Game2::Add(string playerName)
+{
+	m_Players.push_back(playerName);
+	m_Places[HowManyPlayers()] = 0;
+	m_Purses[HowManyPlayers()] = 0;
+	m_InPenaltyBox[HowManyPlayers()] = false;
 
 	*m_OutputStream << playerName << " was added" << endl;
-	*m_OutputStream << "They are player number " << players.size() << endl;
+	*m_OutputStream << "They are player number " << m_Players.size() << endl;
 	return true;
 }
 
-int Game2::howManyPlayers()
+int Game2::HowManyPlayers()
 {
-	return players.size();
+	return m_Players.size();
 }
 
-void Game2::roll(int roll)
+void Game2::Roll(int roll)
 {
-	*m_OutputStream << players[currentPlayer] << " is the current player" << endl;
+	*m_OutputStream << m_Players[m_CurrentPlayer] << " is the current player" << endl;
 	*m_OutputStream << "They have rolled a " << roll << endl;
 
-	if (inPenaltyBox[currentPlayer])
+	if (m_InPenaltyBox[m_CurrentPlayer])
 	{
 		if (roll % 2 != 0)
 		{
-			isGettingOutOfPenaltyBox = true;
+			m_IsGettingOutOfPenaltyBox = true;
 
-			*m_OutputStream << players[currentPlayer] << " is getting out of the penalty box" << endl;
-			places[currentPlayer] = places[currentPlayer] + roll;
-			if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+			*m_OutputStream << m_Players[m_CurrentPlayer] << " is getting out of the penalty box" << endl;
+			m_Places[m_CurrentPlayer] = m_Places[m_CurrentPlayer] + roll;
+			if (m_Places[m_CurrentPlayer] > 11)
+			{
+				m_Places[m_CurrentPlayer] = m_Places[m_CurrentPlayer] - 12;
+			}
 
-			*m_OutputStream << players[currentPlayer] << "'s new location is " << places[currentPlayer] << endl;
-			*m_OutputStream << "The category is " << currentCategory() << endl;
-			askQuestion();
+			*m_OutputStream << m_Players[m_CurrentPlayer] << "'s new location is " << m_Places[m_CurrentPlayer] << endl;
+			*m_OutputStream << "The category is " << CurrentCategory() << endl;
+			AskQuestion();
 		}
 		else
 		{
-			*m_OutputStream << players[currentPlayer] << " is not getting out of the penalty box" << endl;
-			isGettingOutOfPenaltyBox = false;
+			*m_OutputStream << m_Players[m_CurrentPlayer] << " is not getting out of the penalty box" << endl;
+			m_IsGettingOutOfPenaltyBox = false;
 		}
 
 	}
 	else
 	{
 
-		places[currentPlayer] = places[currentPlayer] + roll;
-		if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+		m_Places[m_CurrentPlayer] = m_Places[m_CurrentPlayer] + roll;
+		if (m_Places[m_CurrentPlayer] > 11)
+		{
+			m_Places[m_CurrentPlayer] = m_Places[m_CurrentPlayer] - 12;
+		}
 
-		*m_OutputStream << players[currentPlayer] << "'s new location is " << places[currentPlayer] << endl;
-		*m_OutputStream << "The category is " << currentCategory() << endl;
-		askQuestion();
+		*m_OutputStream << m_Players[m_CurrentPlayer] << "'s new location is " << m_Places[m_CurrentPlayer] << endl;
+		*m_OutputStream << "The category is " << CurrentCategory() << endl;
+		AskQuestion();
 	}
 
 }
 
-void Game2::askQuestion()
+void Game2::AskQuestion()
 {
-	if (currentCategory() == "Pop")
+	if (CurrentCategory() == "Pop")
 	{
-		*m_OutputStream << popQuestions.front() << endl;
-		popQuestions.pop_front();
+		*m_OutputStream << m_PopQuestions.front() << endl;
+		m_PopQuestions.pop_front();
 	}
-	if (currentCategory() == "Science")
+	if (CurrentCategory() == "Science")
 	{
-		*m_OutputStream << scienceQuestions.front() << endl;
-		scienceQuestions.pop_front();
+		*m_OutputStream << m_ScienceQuestions.front() << endl;
+		m_ScienceQuestions.pop_front();
 	}
-	if (currentCategory() == "Sports")
+	if (CurrentCategory() == "Sports")
 	{
-		*m_OutputStream << sportsQuestions.front() << endl;
-		sportsQuestions.pop_front();
+		*m_OutputStream << m_SportsQuestions.front() << endl;
+		m_SportsQuestions.pop_front();
 	}
-	if (currentCategory() == "Rock")
+	if (CurrentCategory() == "Rock")
 	{
-		*m_OutputStream << rockQuestions.front() << endl;
-		rockQuestions.pop_front();
+		*m_OutputStream << m_RockQuestions.front() << endl;
+		m_RockQuestions.pop_front();
 	}
 }
 
 
-string Game2::currentCategory()
+string Game2::CurrentCategory()
 {
-	if (places[currentPlayer] == 0) return "Pop";
-	if (places[currentPlayer] == 4) return "Pop";
-	if (places[currentPlayer] == 8) return "Pop";
-	if (places[currentPlayer] == 1) return "Science";
-	if (places[currentPlayer] == 5) return "Science";
-	if (places[currentPlayer] == 9) return "Science";
-	if (places[currentPlayer] == 2) return "Sports";
-	if (places[currentPlayer] == 6) return "Sports";
-	if (places[currentPlayer] == 10) return "Sports";
+	if (m_Places[m_CurrentPlayer] == 0) return "Pop";
+	if (m_Places[m_CurrentPlayer] == 4) return "Pop";
+	if (m_Places[m_CurrentPlayer] == 8) return "Pop";
+	if (m_Places[m_CurrentPlayer] == 1) return "Science";
+	if (m_Places[m_CurrentPlayer] == 5) return "Science";
+	if (m_Places[m_CurrentPlayer] == 9) return "Science";
+	if (m_Places[m_CurrentPlayer] == 2) return "Sports";
+	if (m_Places[m_CurrentPlayer] == 6) return "Sports";
+	if (m_Places[m_CurrentPlayer] == 10) return "Sports";
 	return "Rock";
 }
 
-bool Game2::wasCorrectlyAnswered()
+bool Game2::WasCorrectlyAnswered()
 {
-	if (inPenaltyBox[currentPlayer])
+	if (m_InPenaltyBox[m_CurrentPlayer])
 	{
-		if (isGettingOutOfPenaltyBox)
+		if (m_IsGettingOutOfPenaltyBox)
 		{
 			*m_OutputStream << "Answer was correct!!!!" << endl;
-			purses[currentPlayer]++;
-			*m_OutputStream << players[currentPlayer]
-			     << " now has "
-			     << purses[currentPlayer]
+			m_Purses[m_CurrentPlayer]++;
+			*m_OutputStream << m_Players[m_CurrentPlayer]
+				<< " now has "
+			    << m_Purses[m_CurrentPlayer]
 				<<  " Gold Coins." << endl;
 
-			bool winner = didPlayerWin();
-			currentPlayer++;
-			if (currentPlayer == players.size()) currentPlayer = 0;
+			bool winner = DidPlayerWin();
+			m_CurrentPlayer++;
+			if (m_CurrentPlayer == m_Players.size()) m_CurrentPlayer = 0;
 
 			return winner;
 		}
 		else
 		{
-			currentPlayer++;
-			if (currentPlayer == players.size()) currentPlayer = 0;
+			m_CurrentPlayer++;
+			if (m_CurrentPlayer == m_Players.size()) m_CurrentPlayer = 0;
 			return true;
 		}
-
-
-
 	}
 	else
 	{
 
 		*m_OutputStream << "Answer was corrent!!!!" << endl;
-		purses[currentPlayer]++;
-		*m_OutputStream << players[currentPlayer]
-				<< " now has "
-				<< purses[currentPlayer]
+		m_Purses[m_CurrentPlayer]++;
+		*m_OutputStream << m_Players[m_CurrentPlayer]
+			<< " now has "
+			<< m_Purses[m_CurrentPlayer]
 			<< " Gold Coins." << endl;
 
-		bool winner = didPlayerWin();
-		currentPlayer++;
-		if (currentPlayer == players.size()) currentPlayer = 0;
+		bool winner = DidPlayerWin();
+		m_CurrentPlayer++;
+		if (m_CurrentPlayer == m_Players.size())
+		{
+			m_CurrentPlayer = 0;
+		}
 
 		return winner;
 	}
 }
 
-bool Game2::wrongAnswer()
+bool Game2::WrongAnswer()
 {
 	*m_OutputStream << "Question was incorrectly answered" << endl;
-	*m_OutputStream << players[currentPlayer] + " was sent to the penalty box" << endl;
-	inPenaltyBox[currentPlayer] = true;
+	*m_OutputStream << m_Players[m_CurrentPlayer] + " was sent to the penalty box" << endl;
+	m_InPenaltyBox[m_CurrentPlayer] = true;
 
-	currentPlayer++;
-	if (currentPlayer == players.size()) currentPlayer = 0;
+	m_CurrentPlayer++;
+	if (m_CurrentPlayer == m_Players.size())
+	{
+		m_CurrentPlayer = 0;
+	}
 	return true;
 }
 
 
-bool Game2::didPlayerWin()
+bool Game2::DidPlayerWin()
 {
-	return !(purses[currentPlayer] == 6);
+	return !(m_Purses[m_CurrentPlayer] == 6);
 }

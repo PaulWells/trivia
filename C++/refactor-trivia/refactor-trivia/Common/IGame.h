@@ -6,12 +6,12 @@ using namespace std;
 class IGame
 {
 public:
-	virtual string createRockQuestion(int index) = 0;
-	virtual bool isPlayable() = 0;
-	virtual bool add(string playerName) = 0;
+	virtual string CreateRockQuestion(int index) = 0;
+	virtual bool IsPlayable() = 0;
+	virtual bool Add(string playerName) = 0;
 
-	virtual int howManyPlayers() = 0;
-	virtual void roll(int roll) = 0;
-	virtual bool wasCorrectlyAnswered() = 0;
-	virtual bool wrongAnswer() = 0;
+	virtual int HowManyPlayers() = 0;
+	virtual void Roll(int roll) = 0;
+	virtual bool WasCorrectlyAnswered() = 0;
+	virtual bool WrongAnswer() = 0;
 };

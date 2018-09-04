@@ -14,15 +14,15 @@ void GameRunner2::Run()
 {
 	do
 	{
-		m_Game->roll(rand() % 5 + 1);
+		m_Game->Roll(rand() % 5 + 1);
 
 		if (rand() % 9 == 7)
 		{
-			notAWinner = m_Game->wrongAnswer();
+			notAWinner = m_Game->WrongAnswer();
 		}
 		else
 		{
-			notAWinner = m_Game->wasCorrectlyAnswered();
+			notAWinner = m_Game->WasCorrectlyAnswered();
 		}
 	} while (notAWinner);
 

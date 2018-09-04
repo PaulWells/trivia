@@ -81,7 +81,7 @@ namespace AcceptanceTests
 		{
 			for (int i = 0; i < numPlayers; i++)
 			{
-				game->add(s_PlayerNames[i]);
+				game->Add(s_PlayerNames[i]);
 			}
 		}
 	};

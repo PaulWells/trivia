@@ -16,7 +16,7 @@ static void AddPlayers(IGame* game, int numPlayers)
 {
 	for (int i = 0; i < numPlayers; i++)
 	{
-		game->add(PlayerNames[i]);
+		game->Add(PlayerNames[i]);
 	}
 }
 

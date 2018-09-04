@@ -28,20 +28,20 @@ class Game : public IGame{
 
 public:
 	Game(std::shared_ptr<std::ostream> os);
-	string createRockQuestion(int index);
-	bool isPlayable();
-	bool add(string playerName);
+	string CreateRockQuestion(int index);
+	bool IsPlayable();
+	bool Add(string playerName);
 
-	int howManyPlayers();
-	void roll(int roll);
+	int HowManyPlayers();
+	void Roll(int roll);
 
 	private:
 		void askQuestion();
 		string currentCategory();
 
 				public:
-					bool wasCorrectlyAnswered();
-					bool wrongAnswer();
+					bool WasCorrectlyAnswered();
+					bool WrongAnswer();
 
 private:
 	shared_ptr<ostream> m_OutputStream;

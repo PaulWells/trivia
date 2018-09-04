@@ -21,39 +21,39 @@ Game::Game(shared_ptr<ostream> os) : currentPlayer(0), places(), purses(), m_Out
 		sprintf_s(str1, "Sports Question %d", i);
 		sportsQuestions.push_back(str1);
 
-		rockQuestions.push_back(createRockQuestion(i));
+		rockQuestions.push_back(CreateRockQuestion(i));
 	}
 }
 
-string Game::createRockQuestion(int index)
+string Game::CreateRockQuestion(int index)
 {
 	char indexStr[127];
 	sprintf_s(indexStr, "Rock Question %d", index);
 	return indexStr;
 }
 
-bool Game::isPlayable()
+bool Game::IsPlayable()
 {
-	return (howManyPlayers() >= 2);
+	return (HowManyPlayers() >= 2);
 }
 
-bool Game::add(string playerName){
+bool Game::Add(string playerName){
 	players.push_back(playerName);
-	places[howManyPlayers()] = 0;
-	purses[howManyPlayers()] = 0;
-	inPenaltyBox[howManyPlayers()] = false;
+	places[HowManyPlayers()] = 0;
+	purses[HowManyPlayers()] = 0;
+	inPenaltyBox[HowManyPlayers()] = false;
 
 	*m_OutputStream << playerName << " was added" << endl;
 	*m_OutputStream << "They are player number " << players.size() << endl;
 	return true;
 }
 
-int Game::howManyPlayers()
+int Game::HowManyPlayers()
 {
 	return players.size();
 }
 
-void Game::roll(int roll)
+void Game::Roll(int roll)
 {
 	*m_OutputStream << players[currentPlayer] << " is the current player" << endl;
 	*m_OutputStream << "They have rolled a " << roll << endl;
@@ -131,7 +131,7 @@ string Game::currentCategory()
 	return "Rock";
 }
 
-bool Game::wasCorrectlyAnswered()
+bool Game::WasCorrectlyAnswered()
 {
 	if (inPenaltyBox[currentPlayer])
 	{
@@ -178,7 +178,7 @@ bool Game::wasCorrectlyAnswered()
 	}
 }
 
-bool Game::wrongAnswer()
+bool Game::WrongAnswer()
 {
 	*m_OutputStream << "Question was incorrectly answered" << endl;
 	*m_OutputStream << players[currentPlayer] + " was sent to the penalty box" << endl;
