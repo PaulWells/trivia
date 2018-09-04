@@ -1,12 +1,14 @@
 #include <iostream>
 #include <list>
 #include <vector>
+#include "../Common/IGame.h"
+
 using namespace std;
 
 #ifndef GAME_H_
 #define GAME_H_
 
-class Game{
+class Game : public IGame{
 
 		private:
 			vector<string> players;
@@ -25,7 +27,7 @@ class Game{
 			bool isGettingOutOfPenaltyBox;
 
 public:
-	Game();
+	Game(std::shared_ptr<std::ostream> os);
 	string createRockQuestion(int index);
 	bool isPlayable();
 	bool add(string playerName);
@@ -42,6 +44,7 @@ public:
 					bool wrongAnswer();
 
 private:
+	shared_ptr<ostream> m_OutputStream;
 	bool didPlayerWin();
 };
 

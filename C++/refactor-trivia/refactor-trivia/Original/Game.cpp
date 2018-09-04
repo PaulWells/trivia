@@ -5,13 +5,12 @@
 
 using namespace std;
 
-Game::Game() : currentPlayer(0), places(), purses(){
-	for (int i = 0; i < 50000; i++)
+Game::Game(shared_ptr<ostream> os) : currentPlayer(0), places(), purses(), m_OutputStream(os){
+	for (int i = 0; i < 500; i++)
 	{
-
 		ostringstream oss (ostringstream::out);
 		oss << "Pop Question " << i;
-
+		
 		popQuestions.push_back(oss.str());
 
 		char str[255];
@@ -44,8 +43,8 @@ bool Game::add(string playerName){
 	purses[howManyPlayers()] = 0;
 	inPenaltyBox[howManyPlayers()] = false;
 
-	cout << playerName << " was added" << endl;
-	cout << "They are player number " << players.size() << endl;
+	*m_OutputStream << playerName << " was added" << endl;
+	*m_OutputStream << "They are player number " << players.size() << endl;
 	return true;
 }
 
@@ -56,8 +55,8 @@ int Game::howManyPlayers()
 
 void Game::roll(int roll)
 {
-	cout << players[currentPlayer] << " is the current player" << endl;
-	cout << "They have rolled a " << roll << endl;
+	*m_OutputStream << players[currentPlayer] << " is the current player" << endl;
+	*m_OutputStream << "They have rolled a " << roll << endl;
 
 	if (inPenaltyBox[currentPlayer])
 	{
@@ -65,17 +64,17 @@ void Game::roll(int roll)
 		{
 			isGettingOutOfPenaltyBox = true;
 
-			cout << players[currentPlayer] << " is getting out of the penalty box" << endl;
+			*m_OutputStream << players[currentPlayer] << " is getting out of the penalty box" << endl;
 			places[currentPlayer] = places[currentPlayer] + roll;
 			if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-			cout << players[currentPlayer] << "'s new location is " << places[currentPlayer] << endl;
-			cout << "The category is " << currentCategory() << endl;
+			*m_OutputStream << players[currentPlayer] << "'s new location is " << places[currentPlayer] << endl;
+			*m_OutputStream << "The category is " << currentCategory() << endl;
 			askQuestion();
 		}
 		else
 		{
-			cout << players[currentPlayer] << " is not getting out of the penalty box" << endl;
+			*m_OutputStream << players[currentPlayer] << " is not getting out of the penalty box" << endl;
 			isGettingOutOfPenaltyBox = false;
 		}
 
@@ -86,8 +85,8 @@ void Game::roll(int roll)
 		places[currentPlayer] = places[currentPlayer] + roll;
 		if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-		cout << players[currentPlayer] << "'s new location is " << places[currentPlayer] << endl;
-		cout << "The category is " << currentCategory() << endl;
+		*m_OutputStream << players[currentPlayer] << "'s new location is " << places[currentPlayer] << endl;
+		*m_OutputStream << "The category is " << currentCategory() << endl;
 		askQuestion();
 	}
 
@@ -97,22 +96,22 @@ void Game::askQuestion()
 {
 	if (currentCategory() == "Pop")
 	{
-		cout << popQuestions.front() << endl;
+		*m_OutputStream << popQuestions.front() << endl;
 		popQuestions.pop_front();
 	}
 	if (currentCategory() == "Science")
 	{
-		cout << scienceQuestions.front() << endl;
+		*m_OutputStream << scienceQuestions.front() << endl;
 		scienceQuestions.pop_front();
 	}
 	if (currentCategory() == "Sports")
 	{
-		cout << sportsQuestions.front() << endl;
+		*m_OutputStream << sportsQuestions.front() << endl;
 		sportsQuestions.pop_front();
 	}
 	if (currentCategory() == "Rock")
 	{
-		cout << rockQuestions.front() << endl;
+		*m_OutputStream << rockQuestions.front() << endl;
 		rockQuestions.pop_front();
 	}
 }
@@ -138,9 +137,9 @@ bool Game::wasCorrectlyAnswered()
 	{
 		if (isGettingOutOfPenaltyBox)
 		{
-			cout << "Answer was correct!!!!" << endl;
+			*m_OutputStream << "Answer was correct!!!!" << endl;
 			purses[currentPlayer]++;
-			cout << players[currentPlayer]
+			*m_OutputStream << players[currentPlayer]
 			     << " now has "
 			     << purses[currentPlayer]
 				<<  " Gold Coins." << endl;
@@ -164,9 +163,9 @@ bool Game::wasCorrectlyAnswered()
 	else
 	{
 
-		cout << "Answer was corrent!!!!" << endl;
+		*m_OutputStream << "Answer was corrent!!!!" << endl;
 		purses[currentPlayer]++;
-		cout << players[currentPlayer]
+		*m_OutputStream << players[currentPlayer]
 				<< " now has "
 				<< purses[currentPlayer]
 			<< " Gold Coins." << endl;
@@ -181,8 +180,8 @@ bool Game::wasCorrectlyAnswered()
 
 bool Game::wrongAnswer()
 {
-	cout << "Question was incorrectly answered" << endl;
-	cout << players[currentPlayer] + " was sent to the penalty box" << endl;
+	*m_OutputStream << "Question was incorrectly answered" << endl;
+	*m_OutputStream << players[currentPlayer] + " was sent to the penalty box" << endl;
 	inPenaltyBox[currentPlayer] = true;
 
 	currentPlayer++;
