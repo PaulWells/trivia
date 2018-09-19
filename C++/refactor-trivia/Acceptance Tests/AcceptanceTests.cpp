@@ -5,20 +5,12 @@
 #include "New/GameRunner2.h"
 #include "New/Game2.h"
 #include "Common/IGame.h"
+#include "Common/GameFactory.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace AcceptanceTests
 {		
-	static std::vector<string> s_PlayerNames = {
-		"Chet",
-		"Pat",
-		"Sue",
-		"Paul",
-		"Aileen",
-		"Keara",
-	};
-
 	TEST_CLASS(GameRunnerAcceptanceTests)
 	{
 	public:
@@ -68,21 +60,12 @@ namespace AcceptanceTests
 		static string RunOneGame(int numPlayers)
 		{
 			std::shared_ptr<std::stringstream> gameOutput = make_shared<std::stringstream>();
-			std::unique_ptr<IGame> game = std::make_unique<T>(gameOutput);
-			AddPlayers(game.get(), numPlayers);
+			std::unique_ptr<IGame> game(GameFactory::CreateGame2(gameOutput, numPlayers));
 
 			GameRunner gameRunner(game.release());
 			gameRunner.Run();
 
 			return gameOutput->str();
-		}
-
-		static void AddPlayers(IGame* game, int numPlayers)
-		{
-			for (int i = 0; i < numPlayers; i++)
-			{
-				game->Add(s_PlayerNames[i]);
-			}
 		}
 	};
 }

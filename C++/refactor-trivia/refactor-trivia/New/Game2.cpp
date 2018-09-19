@@ -5,12 +5,17 @@
 
 using namespace std;
 
-Game2::Game2(shared_ptr<ostream> os) 
+Game2::Game2(shared_ptr<ostream> os, const vector<string>& playerNames) 
 	: m_CurrentPlayer(0)
 	, m_Places()
 	, m_Purses()
 	, m_OutputStream(os)
 {
+	for (string playerName : playerNames)
+	{
+		Add(playerName);
+	}
+
 	for (int i = 0; i < 500; i++)
 	{
 

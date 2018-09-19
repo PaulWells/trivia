@@ -6,20 +6,21 @@
 class Game2 : public IGame {
 
 public:
-	Game2(std::shared_ptr<ostream> os);
-	std::string CreateRockQuestion(int index);
-	bool IsPlayable();
-	bool Add(std::string playerName);
-	int HowManyPlayers();
-	void Roll(int roll);
+	Game2(std::shared_ptr<ostream> os, const std::vector<std::string>& playerNames);
 
-	bool WasCorrectlyAnswered();
-	bool WrongAnswer();
+	bool Add(std::string playerName);
+
+	void Roll(int roll) override;
+	bool WasCorrectlyAnswered() override;
+	bool WrongAnswer() override;
 
 private:
 	void AskQuestion();
 	std::string CurrentCategory();
 	bool DidPlayerWin();
+	int HowManyPlayers();
+	bool IsPlayable();
+	std::string CreateRockQuestion(int index);
 
 	vector<std::string> m_Players;
 
