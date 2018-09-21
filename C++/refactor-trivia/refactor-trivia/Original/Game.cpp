@@ -131,7 +131,7 @@ string Game::currentCategory()
 	return "Rock";
 }
 
-bool Game::WasCorrectlyAnswered()
+bool Game::CorrectAnswer()
 {
 	if (inPenaltyBox[currentPlayer])
 	{

@@ -40,7 +40,7 @@ public:
 		string currentCategory();
 
 				public:
-					bool WasCorrectlyAnswered();
+					bool CorrectAnswer();
 					bool WrongAnswer();
 
 private:

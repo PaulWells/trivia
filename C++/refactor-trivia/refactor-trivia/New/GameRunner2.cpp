@@ -22,7 +22,7 @@ void GameRunner2::Run()
 		}
 		else
 		{
-			notAWinner = m_Game->WasCorrectlyAnswered();
+			notAWinner = m_Game->CorrectAnswer();
 		}
 	} while (notAWinner);
 

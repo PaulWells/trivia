@@ -11,7 +11,7 @@ public:
 	bool Add(std::string playerName);
 
 	void Roll(int roll) override;
-	bool WasCorrectlyAnswered() override;
+	bool CorrectAnswer() override;
 	bool WrongAnswer() override;
 
 private:
