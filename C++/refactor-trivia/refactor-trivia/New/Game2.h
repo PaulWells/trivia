@@ -8,13 +8,13 @@ class Game2 : public IGame {
 public:
 	Game2(std::shared_ptr<ostream> os, const std::vector<std::string>& playerNames);
 
-	bool Add(std::string playerName);
 
 	void Roll(int roll) override;
 	bool CorrectAnswer() override;
 	bool WrongAnswer() override;
 
 private:
+	bool Add(std::string playerName);
 	void AskQuestion();
 	std::string CurrentCategory();
 	bool DidPlayerWin();

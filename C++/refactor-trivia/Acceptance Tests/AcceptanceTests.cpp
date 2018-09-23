@@ -36,13 +36,13 @@ namespace AcceptanceTests
 			// sequence of numbers each test run.
 			srand(seed);
 
-			string originalConsoleOutput = RunOneGame<Game>(numPlayers);
+			string originalConsoleOutput = RunOneGame(GameVersion::One, numPlayers);
 
 			// Reinitialize the random number generator so that the second test run
 			// uses the same sequence as the first as the first.
 			srand(seed);
 
-			string newConsoleOutput = RunOneGame<Game2>(numPlayers);
+			string newConsoleOutput = RunOneGame(GameVersion::Two, numPlayers);
 
 			Assert::AreEqual(originalConsoleOutput, newConsoleOutput);
 		}
@@ -56,11 +56,10 @@ namespace AcceptanceTests
 			return (seed % (MAX_NUMBER_OF_PLAYERS - MIN_NUMBER_OF_PLAYERS)) + MIN_NUMBER_OF_PLAYERS;
 		}
 
-		template<typename T>
-		static string RunOneGame(int numPlayers)
+		static string RunOneGame(GameVersion version, int numPlayers)
 		{
 			std::shared_ptr<std::stringstream> gameOutput = make_shared<std::stringstream>();
-			std::unique_ptr<IGame> game(GameFactory::CreateGame2(gameOutput, numPlayers));
+			std::unique_ptr<IGame> game(GameFactory::CreateGame(version, gameOutput, numPlayers));
 
 			GameRunner gameRunner(game.release());
 			gameRunner.Run();

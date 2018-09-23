@@ -3,6 +3,12 @@
 
 using namespace std;
 
+enum class GameVersion
+{
+	One,
+	Two
+};
+
 class IGame
 {
 public:

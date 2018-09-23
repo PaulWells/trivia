@@ -163,7 +163,7 @@ bool Game::CorrectAnswer()
 	else
 	{
 
-		*m_OutputStream << "Answer was corrent!!!!" << endl;
+		*m_OutputStream << "Answer was correct!!!!" << endl;
 		purses[currentPlayer]++;
 		*m_OutputStream << players[currentPlayer]
 				<< " now has "

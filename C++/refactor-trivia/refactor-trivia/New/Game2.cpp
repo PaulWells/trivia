@@ -178,7 +178,7 @@ bool Game2::CorrectAnswer()
 	else
 	{
 
-		*m_OutputStream << "Answer was corrent!!!!" << endl;
+		*m_OutputStream << "Answer was correct!!!!" << endl;
 		m_Purses[m_CurrentPlayer]++;
 		*m_OutputStream << m_Players[m_CurrentPlayer]
 			<< " now has "
