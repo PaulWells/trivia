@@ -51,9 +51,9 @@ bool Game2::IsPlayable()
 bool Game2::Add(string playerName)
 {
 	m_Players.push_back(playerName);
-	m_Places[HowManyPlayers()] = 0;
-	m_Purses[HowManyPlayers()] = 0;
-	m_InPenaltyBox[HowManyPlayers()] = false;
+	m_Places[HowManyPlayers() - 1] = 0;
+	m_Purses[HowManyPlayers() - 1] = 0;
+	m_InPenaltyBox[HowManyPlayers() - 1] = false;
 
 	*m_OutputStream << playerName << " was added" << endl;
 	*m_OutputStream << "They are player number " << m_Players.size() << endl;

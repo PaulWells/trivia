@@ -39,9 +39,9 @@ bool Game::IsPlayable()
 
 bool Game::Add(string playerName){
 	players.push_back(playerName);
-	places[HowManyPlayers()] = 0;
-	purses[HowManyPlayers()] = 0;
-	inPenaltyBox[HowManyPlayers()] = false;
+	places[HowManyPlayers() - 1] = 0;
+	purses[HowManyPlayers() - 1] = 0;
+	inPenaltyBox[HowManyPlayers() - 1] = false;
 
 	*m_OutputStream << playerName << " was added" << endl;
 	*m_OutputStream << "They are player number " << players.size() << endl;
@@ -120,13 +120,13 @@ void Game::askQuestion()
 string Game::currentCategory()
 {
 	if (places[currentPlayer] == 0) return "Pop";
-	if (places[currentPlayer] == 4) return "Pop";
-	if (places[currentPlayer] == 8) return "Pop";
 	if (places[currentPlayer] == 1) return "Science";
-	if (places[currentPlayer] == 5) return "Science";
-	if (places[currentPlayer] == 9) return "Science";
 	if (places[currentPlayer] == 2) return "Sports";
+	if (places[currentPlayer] == 4) return "Pop";
+	if (places[currentPlayer] == 5) return "Science";
 	if (places[currentPlayer] == 6) return "Sports";
+	if (places[currentPlayer] == 8) return "Pop";
+	if (places[currentPlayer] == 9) return "Science";
 	if (places[currentPlayer] == 10) return "Sports";
 	return "Rock";
 }

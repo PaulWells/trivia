@@ -18,37 +18,37 @@ static const vector<string> s_DefaultPlayerNames = {
 	"Keara",
 };
 
-static IGame* CreateGameVersionOne(shared_ptr<ostream> os, const vector<string>& playerName, const int numPlayers)
+static IGame* CreateGameVersionOne(shared_ptr<ostream> os, const vector<string>& playerNames, const int numPlayers)
 {
 	Game* game = new Game(os);
 	for (int i = 0; i < numPlayers; i++)
 	{
-		game->Add(s_DefaultPlayerNames[i]);
+		game->Add(playerNames[i]);
 	}
 	return game;
 }
 
-static IGame* CreateGameVersionTwo(shared_ptr<ostream> os, const vector<string>& playerName, const int numPlayers)
+static IGame* CreateGameVersionTwo(shared_ptr<ostream> os, const vector<string>& playerNamesList, const int numPlayers)
 {
 	std::vector<string> playerNames;
 	for (int i = 0; i < numPlayers; i++)
 	{
-		playerNames.push_back(s_DefaultPlayerNames[i]);
+		playerNames.push_back(playerNamesList[i]);
 	}
 	return new Game2(os, playerNames);
 }
 
-static IGame* CreateGameInternal(GameVersion version, shared_ptr<ostream> os, const vector<string>& playerNames, const int numPlayers)
+static IGame* CreateGameInternal(GameVersion version, shared_ptr<ostream> os, const vector<string>& playerNamesList, const int numPlayers)
 {
 	switch (version)
 	{
 	case GameVersion::One:
 	{
-		return CreateGameVersionOne(os, playerNames, numPlayers);
+		return CreateGameVersionOne(os, playerNamesList, numPlayers);
 	}
 	case GameVersion::Two:
 	{
-		return CreateGameVersionTwo(os, playerNames, numPlayers);
+		return CreateGameVersionTwo(os, playerNamesList, numPlayers);
 	}
 	default:
 		throw std::invalid_argument("Invalid GameVersion");
