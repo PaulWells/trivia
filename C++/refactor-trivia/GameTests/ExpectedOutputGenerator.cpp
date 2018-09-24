@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "ExpectedOutputGenerator.h"
+#include "TestUtils.h"
 
 using namespace std;
 
@@ -11,7 +12,7 @@ static const std::vector<string> s_Categories = {
 	"Pop", "Science", "Sports", "Rock"
 };
 
-/*static*/ vector<string> ExpectedOutputGenerator::GenerateCreationOutput(vector<string> playerNames)
+/*static*/ vector<string> ExpectedOutputGenerator::GenerateConstructorOutput(vector<string> playerNames)
 {
 	vector<string> lines;
 	for (unsigned int i = 0; i < playerNames.size(); i++)
@@ -22,9 +23,9 @@ static const std::vector<string> s_Categories = {
 	return lines;
 }
 
-/*static*/ vector<string> ExpectedOutputGenerator::GenerateRollWhenNotInPenaltyBox(string playerName, int startingPosition, int rollValue)
+/*static*/ vector<string> ExpectedOutputGenerator::GenerateRollWhenNotInPenaltyBox(string playerName, int startingPosition, int rollValue, int instanceOfQuestion)
 {
-	int newBoardPosition = GetNewBoardPosition(startingPosition, rollValue);
+	int newBoardPosition = TestUtils::GetNewBoardPosition(startingPosition, rollValue);
 	string category = GetCategory(newBoardPosition);
 
 	vector<string> lines;
@@ -32,13 +33,8 @@ static const std::vector<string> s_Categories = {
 	lines.emplace_back("They have rolled a " + std::to_string(rollValue));
 	lines.emplace_back(playerName + "'s new location is " + std::to_string(newBoardPosition));
 	lines.emplace_back("The category is " + category);
-	lines.emplace_back(category + " Question 0");
+	lines.emplace_back(category + " Question " + std::to_string(instanceOfQuestion));
 	return lines;
-}
-
-/*static*/ int ExpectedOutputGenerator::GetNewBoardPosition(int startingPosition, int rollValue)
-{
-	return (startingPosition + rollValue) % BOARD_SIZE;
 }
 
 /*static*/ string ExpectedOutputGenerator::GetCategory(int boardPosition)

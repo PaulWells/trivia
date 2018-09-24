@@ -18,7 +18,6 @@ Game2::Game2(shared_ptr<ostream> os, const vector<string>& playerNames)
 
 	for (int i = 0; i < 500; i++)
 	{
-
 		ostringstream oss (ostringstream::out);
 		oss << "Pop Question " << i;
 

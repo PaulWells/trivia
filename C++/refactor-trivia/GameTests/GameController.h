@@ -3,10 +3,10 @@ class GameController
 {
 public:
 	GameController(IGame* game);
-
-	
-
+	void SkipTurns(int numTurns);
+	void MovePlayerForward(int numSpaces);
 private:
-	std::unique_ptr<IGame> m_Game;
+	// Game object is owned by the test
+	IGame* m_Game;
 };
 
